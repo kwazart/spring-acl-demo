@@ -5,6 +5,7 @@ import com.polozov.acldemo.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PostFilter;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class BookServiceImpl implements BookService {
         return repository.findById(id).orElseThrow();
     }
 
+    @PreAuthorize("hasPermission(#book, 'WRITE') || hasAuthority('ROLE_ADMIN')")
     @Override
     public Book save(Book book) {
         return repository.save(book);
